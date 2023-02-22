@@ -2,11 +2,15 @@ package com.example.fragmentexample1updated;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +18,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class SimpleFragment extends Fragment {
+
+    public static  final int YES = 0;
+    public static  final int NO = 1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +34,8 @@ public class SimpleFragment extends Fragment {
     public SimpleFragment() {
         // Required empty public constructor
     }
+
+
 
     /**
      * Use this factory method to create a new instance of
@@ -60,5 +69,32 @@ public class SimpleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_simple, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        final RadioGroup radioGroup = view.findViewById(R.id.radio_group);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                View radioButton = radioGroup.findViewById(i);
+                int idx = radioGroup.indexOfChild(radioButton);
+                TextView textView = view.findViewById(R.id.fragment_header);
+
+                switch (idx){
+                    case YES :
+                        textView.setText(R.string.yes_message);
+                        break;
+                    case NO :
+                        textView.setText(R.string.no_message);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 }
